@@ -1,4 +1,4 @@
-package com.task.accessingdatamysql;
+package com.task;
 
 
 import org.springframework.data.repository.CrudRepository;
@@ -6,8 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
-
-	//alterar para pelo que ira buscar	
-    //List<Task> findById(int id);
 
 }

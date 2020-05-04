@@ -1,11 +1,16 @@
 
 package com.task;
 
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,4 +51,28 @@ public class MainController {
 	TaskRepository.deleteById(id);
     return "Deleted";	  
   }
+ 
+  
+  @PutMapping(path="/update")
+  public @ResponseBody String update(
+	  @RequestParam Long id,
+	  @RequestParam String dueDate,
+	  @RequestParam String finishedDate,
+	  @RequestParam String diffDays,
+	  @RequestParam int number
+  ) {
+
+	  if (TaskRepository.findById(id).isPresent()) {
+		  Task existTask = TaskRepository.findById(id).get();
+		  existTask.setDiffDays(diffDays);
+		  existTask.setDueDate(dueDate);
+		  existTask.setFinishedDate(finishedDate);
+		  existTask.setNumber(number);
+		  TaskRepository.save(existTask);
+		  return "Updated";
+	  } else {
+		  return "Theres no exist a item whith this id...";
+	  }
+  }
+
 }
